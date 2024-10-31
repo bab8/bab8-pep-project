@@ -35,7 +35,7 @@ public class AccountDAO {
         return null;
     }
 
-    public Boolean VerifyLoginUser(Account account){
+    public Boolean verifyLoginUser(Account account){
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Prepare sql logic
@@ -49,7 +49,6 @@ public class AccountDAO {
             //execute sql
             ResultSet accountResultSet =  ps.executeQuery();
             if(accountResultSet.next()){
-                //TODO: may need further check if account ID exists
                 return true;
             }
         } catch (Exception e) {
@@ -57,5 +56,5 @@ public class AccountDAO {
         }
         return false;
     }
-    
+
 }

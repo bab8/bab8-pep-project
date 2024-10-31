@@ -11,6 +11,28 @@ import Util.ConnectionUtil;
 
 public class MessageDAO {
 
+    //Method created to verify user existence
+    public Boolean verifyUser(int account_id){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            //Prepare sql logic
+            String sql = "SELECT account WHERE account_id=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            //Set statement parameters
+            ps.setInt(1, account_id);
+
+            //execute sql
+            ResultSet accountResultSet =  ps.executeQuery();
+            if(accountResultSet.next()){
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
     public List<Message> getAllMessages(){
         Connection connection = ConnectionUtil.getConnection();
         List<Message> messages = new ArrayList<>();
