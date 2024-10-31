@@ -1,21 +1,29 @@
 package Service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
+import DAO.AccountDAO;
 import Model.Account;
-import Util.ConnectionUtil;
+
 
 public class AccountService {
+    AccountDAO accountDAO;
 
-    public Account registerUser(Account account){
-       return account;
+    public AccountService(){
+        accountDAO = new AccountDAO();
     }
 
-    public Boolean verifyLoginUser(Account account){
-        return false;
+    public AccountService(AccountDAO accountDAO){
+        this.accountDAO = accountDAO;
+    }
+
+    public Account registerUser(Account account){
+        if(account.getUsername() != "" && account.getPassword().length() >= 4 && !this.accountDAO.verifyUser(account.getAccount_id())){
+            return this.accountDAO.registerUser(account);
+        }
+       return null;
+    }
+
+    public Account verifyLoginUser(Account account){
+        return this.accountDAO.verifyLoginUser(account);
     }
     
 }

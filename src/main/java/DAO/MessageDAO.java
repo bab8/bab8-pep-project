@@ -16,7 +16,7 @@ public class MessageDAO {
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Prepare sql logic
-            String sql = "SELECT account WHERE account_id=?";
+            String sql = "SELECT * FROM account WHERE account_id=?";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             //Set statement parameters

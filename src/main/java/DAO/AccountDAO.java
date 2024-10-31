@@ -35,16 +35,37 @@ public class AccountDAO {
         return null;
     }
 
-    public Boolean verifyLoginUser(Account account){
+    public Account verifyLoginUser(Account account){
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Prepare sql logic
-            String sql = "SELECT account WHERE username=? AND password=?";
+            String sql = "SELECT * FROM account WHERE username=? AND password=?";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             //Set statement parameters
             ps.setString(1, account.getUsername());
             ps.setString(2, account.getPassword());
+
+            //execute sql
+            ResultSet accountResultSet =  ps.executeQuery();
+            if(accountResultSet.next()){
+                return new Account(accountResultSet.getInt("account_id"), account.getUsername(), account.getPassword());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public Boolean verifyUser(int account_id){
+        Connection connection = ConnectionUtil.getConnection();
+        try {
+            //Prepare sql logic
+            String sql = "SELECT * FROM account WHERE account_id=?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            //Set statement parameters
+            ps.setInt(1, account_id);
 
             //execute sql
             ResultSet accountResultSet =  ps.executeQuery();

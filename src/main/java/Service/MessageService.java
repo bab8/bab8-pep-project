@@ -42,10 +42,16 @@ public class MessageService {
     }
 
     public Message updateMessageById(int message_id, Message message){
-        if(getMessageById(message_id) == null && message.getMessage_text() != "" && message.getMessage_text().length() <= 255){
+        boolean updated = false;
+        if(getMessageById(message_id) != null && message.getMessage_text() != "" && message.getMessage_text().length() <= 255){
             this.messageDAO.updateMessageById(message_id, message);
+            updated = true;
         }
-        return this.messageDAO.getMessageById(message_id);
+        if(updated){
+            return this.messageDAO.getMessageById(message_id);
+        }else{
+            return null;
+        }
     }
 
     public List<Message> getUserMessagesById(int user_id){
